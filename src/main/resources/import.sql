@@ -1,3 +1,3 @@
 insert into tb_category (name)  values ('disco');
 insert into tb_category (name)  values ('livros');
-insert into tb_category (name)  values ('biblioteca');
+insert into tb_category (name)  values ('computadores');
