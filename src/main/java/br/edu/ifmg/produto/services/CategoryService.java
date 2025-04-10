@@ -35,7 +35,7 @@ public class CategoryService {
     public CategoryDTO findById(Long id) {
         Optional<Category> obj = categoryRepository.findById(id);
 
-        Category category = obj.orElseThrow( () -> new ResourceNotFound("Categoria não encontrada") );
+        Category category = obj.orElseThrow( () -> new ResourceNotFound("Categoria não encontrada" + id) );
         return new CategoryDTO(category);
     }
 
