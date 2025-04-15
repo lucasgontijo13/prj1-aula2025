@@ -14,6 +14,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
+    @Column(columnDefinition = "TEXT")//  o tio string se comporta como VARCHAR, assim mudamos para TEXT
     private String description;
     private double price;
     private String imageUrl;

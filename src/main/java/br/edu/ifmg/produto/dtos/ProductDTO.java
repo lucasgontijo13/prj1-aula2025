@@ -30,6 +30,8 @@ public class ProductDTO {
         this.imageUrl = imageUrl;
     }
 
+
+
     public ProductDTO(Product entity) {
         this.id = entity.getId();
         this.name = entity.getName();
