@@ -1,6 +1,4 @@
     package br.edu.ifmg.produto.services;
-
-    import br.edu.ifmg.produto.dtos.CategoryDTO;
     import br.edu.ifmg.produto.dtos.ProductDTO;
     import br.edu.ifmg.produto.entities.Category;
     import br.edu.ifmg.produto.entities.Product;
@@ -56,7 +54,12 @@
             Product entity = new Product();
             copyDtoToEntity(dto, entity);
             entity = productRepository.save(entity);
-            return new ProductDTO(entity);
+            return new ProductDTO(entity)
+                    .add(linkTo(methodOn(ProductResource.class).findById(entity.getId())).withRel("Find product by Id"))
+                    .add(linkTo(methodOn(ProductResource.class).findAll(null)).withRel("All products"))
+                    .add(linkTo(methodOn(ProductResource.class).update(entity.getId(), null)).withRel("Update products"))
+                    .add(linkTo(methodOn(ProductResource.class).delete(entity.getId())).withRel("Delete products"))
+                    ;
         }
 
         @Transactional
@@ -65,7 +68,11 @@
                 Product entity = productRepository.getReferenceById(id);
                 copyDtoToEntity(dto, entity);
                 productRepository.save(entity);
-                return new ProductDTO(entity);
+                return new ProductDTO(entity)
+                        .add(linkTo(methodOn(ProductResource.class).findById(entity.getId())).withRel("Find product by Id"))
+                        .add(linkTo(methodOn(ProductResource.class).findAll(null)).withRel("All products"))
+                        .add(linkTo(methodOn(ProductResource.class).delete(entity.getId())).withRel("Delete products"))
+                        ;
             }
             catch(EntityNotFoundException e) {
                 throw new ResourceNotFound("Product not Found " +id);
