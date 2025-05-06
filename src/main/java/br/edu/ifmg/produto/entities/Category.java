@@ -16,7 +16,7 @@ public class Category {
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant createdAt;
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-    private Instant updateAt;
+    private Instant updatedAt;
 
     public Category(long id, String name) {
         this.name = name;
@@ -53,7 +53,7 @@ public class Category {
     }
 
     public Instant getUpdateAt() {
-        return updateAt;
+        return updatedAt;
     }
 
     @PrePersist
@@ -62,13 +62,13 @@ public class Category {
      }
     @PreUpdate
     private void preUpdate(){
-        updateAt = Instant.now();
+        updatedAt = Instant.now();
      }
 
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Category category)) return false;
-        return id == category.id;
+        return Objects.equals(id, category.id);
     }
 
     @Override

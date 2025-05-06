@@ -24,7 +24,11 @@ public class Product {
     private Instant updatedAt;
 
     @ManyToMany
-    @JoinTable(name = "tb_product_category", joinColumns = {@JoinColumn(name = "product_id"),}, inverseJoinColumns = @JoinColumn(name = "category_id"))
+    @JoinTable(
+            name = "tb_product_category",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
     private Set<Category> categories = new HashSet<>();
 
 
@@ -135,7 +139,7 @@ public class Product {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Product product)) return false;
-        return id == product.id;
+        return Objects.deepEquals(id, product.id);
     }
 
     @Override
