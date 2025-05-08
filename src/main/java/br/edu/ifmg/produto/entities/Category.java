@@ -9,61 +9,63 @@ import java.util.Objects;
 @Entity
 @Table(name = "tb_category")
 public class Category {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String name;
+
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant createdAt;
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant updatedAt;
 
-    public Category(long id, String name) {
-        this.name = name;
-        this.id = id;
+    public Category(Long id, String name) {
+        this.setId(id);
+        this.setName(name);
+    }
+
+    public Category (CategoryDTO dto) {
+        this.setId(dto.getId());
+        this.setName(dto.getName());
     }
 
     public Category() {
     }
 
-    public Category(CategoryDTO dto) {
-        this.id = dto.getId();
-        this.name = dto.getName();
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
-
 
     public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public Instant getUpdateAt() {
+    public Instant getUpdatedAt() {
         return updatedAt;
     }
 
     @PrePersist
-     private void prePersist(){
+    private void prePersist() {
         createdAt = Instant.now();
-     }
+    }
+
     @PreUpdate
-    private void preUpdate(){
+    private void preUpdate() {
         updatedAt = Instant.now();
-     }
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -79,8 +81,8 @@ public class Category {
     @Override
     public String toString() {
         return "Category{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "id=" + this.getId() +
+                ", name='" + this.getName() + '\'' +
                 '}';
     }
 }

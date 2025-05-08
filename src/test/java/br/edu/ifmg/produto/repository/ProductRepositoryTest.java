@@ -13,38 +13,37 @@ import java.util.Optional;
 
 @DataJpaTest
 public class ProductRepositoryTest {
-
     @Autowired
     private ProductRepository productRepository;
 
-
-    private long existingId;
+    private Long existingId;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception {
         existingId = 1L;
     }
 
     @Test
-    @DisplayName(value = "Verificando se o objeto não existe no DB depois de deletado")
-    public void deleteShoudDeleteObjectWhenIdExists() {
-        productRepository.deleteById(1L);
-        Optional<Product> optional = productRepository.findById(existingId);
+    @DisplayName(value = "Verificando se o objeto não existe no BD depois de deletado.")
+    public void deleteShouldDeleteObjectWhenIdExists() {
+        productRepository.deleteById(existingId);
+        Optional<Product> obj = productRepository.findById(existingId);
 
-        Assertions.assertFalse(optional.isPresent());
+        Assertions.assertFalse(obj.isPresent());
     }
 
     @Test
-    @DisplayName(value = "Verificando o autoincremento da chave primaria")
-    public void insertShoudPersistWithAutoincrementIdWhenIdZero() {
+    @DisplayName(value = "Verificando o autoincremento da chave primária.")
+    public void insertShouldPersistWithAutoincrementIdWhenIdIsZero() {
         Product product = Factory.createProduct();
-        product.setId(0);
+        product.setId(null);
         Product p = productRepository.save(product);
         Optional<Product> obj = productRepository.findById(p.getId());
 
-
+        /* Assegura que o objeto foi inserido. */
         Assertions.assertTrue(obj.isPresent());
 
+        /* Assegura que o ID do objeto mudou ao inserir no BD (autoincremento). */
         Assertions.assertNotEquals(0, obj.get().getId());
 
         Assertions.assertEquals(26, obj.get().getId());

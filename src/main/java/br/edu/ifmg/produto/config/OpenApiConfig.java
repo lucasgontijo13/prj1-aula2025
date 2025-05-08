@@ -10,17 +10,21 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition
 @Configuration
 public class OpenApiConfig {
+
     @Bean
-    public OpenAPI customOpenAPI(){
-        return new OpenAPI().info(
-                new Info().
-                title("Product API").
-                version("1.0").
-                license(
-                        new License().
-                        name("Apache 2").
-                        url("https://www.apache.org/licenses/LICENSE-2.0.html")
-                )
-            );
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .info(
+                    new Info()
+                        .title("Produto API")
+                        .description("Projeto 01 - Prog. Backend")
+                        .version("1.0")
+                        .license(
+                            new License()
+                                .name("Apache 2.0")
+                                .url("https://formiga.ifmg.edu.br")
+                        )
+                );
     }
+
 }

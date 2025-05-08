@@ -10,7 +10,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
+import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -18,9 +22,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ProductServiceTest {
@@ -31,8 +35,8 @@ class ProductServiceTest {
     @Mock
     private ProductRepository productRepository;
 
-    private long existingId;
-    private long nonExistingId;
+    private Long existingId;
+    private Long nonExistingId;
     private PageImpl<Product> page;
 
     @BeforeEach
@@ -40,35 +44,32 @@ class ProductServiceTest {
         existingId = 1L;
         nonExistingId = 200L;
         Product product = Factory.createProduct();
-        page = new PageImpl<>(List.of(product,product));
+        page = new PageImpl<>(List.of(product, product));
     }
 
     @Test
-    @DisplayName(value = "Verificnado se o objeto foi deletado do banco de daods")
-    void deleteShouldDoNothingWhenIdExists() {
+    @DisplayName(value = "Verificando se o objeto foi deletado do BD.")
+    void deleteShouldDoNothingWhenIdExists () {
         when(productRepository.existsById(existingId)).thenReturn(true);
         doNothing().when(productRepository).deleteById(existingId);
 
         Assertions.assertDoesNotThrow(() -> productService.delete(existingId));
-
         verify(productRepository, Mockito.times(1)).deleteById(existingId);
     }
 
-
     @Test
-    @DisplayName(value = "Verificnado se levanta uma exceção se o obejto nao existe")
-    void deleteShouldThrowExceptionWhenIdNonExist() {
+    @DisplayName(value = "Verificando se levanta uma exceção se o objeto não existe no BD.")
+    void deleteShouldThrowExceptionWhenIdNotExists () {
         when(productRepository.existsById(nonExistingId)).thenReturn(false);
         //doNothing().when(productRepository).deleteById(nonExistingId);
 
         Assertions.assertThrows(ResourceNotFound.class, () -> productService.delete(nonExistingId));
-
         verify(productRepository, Mockito.times(0)).deleteById(nonExistingId);
     }
 
     @Test
-    @DisplayName(value = "Verificando se o find all retorna os dados paginados")
-    void findAllShouldReturnOnePage() {
+    @DisplayName(value = "Verificando se o findAll retorna os dados paginados.")
+    void findAllShouldReturnOnePage () {
         when(productRepository.findAll((Pageable) ArgumentMatchers.any())).thenReturn(page);
 
         Pageable pagina = PageRequest.of(0, 10);
@@ -76,5 +77,18 @@ class ProductServiceTest {
 
         Assertions.assertNotNull(result);
         verify(productRepository, Mockito.times(1)).findAll(pagina);
+    }
+
+    @Test
+    @DisplayName(value = "Verificando a busca de um produto por um ID existente.")
+    void findByIdShouldReturnProductWhenIdExists () {
+        Product p = Factory.createProduct();
+        p.setId(existingId);
+        when(productRepository.findById(existingId)).thenReturn(Optional.of(p));
+
+        ProductDTO dto = productService.findById(existingId);
+        Assertions.assertNotNull(dto);
+        Assertions.assertEquals(existingId, dto.getId());
+        verify(productRepository, Mockito.times(1)).findById(existingId);
     }
 }

@@ -12,14 +12,14 @@ import java.util.Set;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String name;
-    @Column(columnDefinition = "TEXT")//  o tio string se comporta como VARCHAR, assim mudamos para TEXT
+
+    @Column(columnDefinition = "TEXT") /* O tipo String se comporta como VARCHAR, com isso mudamos para o tipo TEXT. */
     private String description;
+
     private double price;
     private String imageUrl;
-
-
     private Instant createdAt;
     private Instant updatedAt;
 
@@ -31,43 +31,37 @@ public class Product {
     )
     private Set<Category> categories = new HashSet<>();
 
-
     public Product() {
     }
 
-    public Product(long id, String name, String description, double price, String imageUrl, Instant createdAt, Instant updatedAt) {
+    public Product(Long id, String name, String description, double price, String imageUrl) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.imageUrl = imageUrl;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
-    public Product(Product product) {
-        this.id = product.getId();
-        this.name = product.getName();
-        this.description = product.getDescription();
-        this.price = product.getPrice();
-        this.imageUrl = product.getImageUrl();
-        this.createdAt = product.getCreatedAt();
-        this.updatedAt = product.getUpdatedAt();
+    public Product(Product entity) {
+        this.id = entity.getId();
+        this.name = entity.getName();
+        this.description = entity.getDescription();
+        this.price = entity.getPrice();
+        this.imageUrl = entity.getImageUrl();
+        this.createdAt = entity.getCreatedAt();
+        this.updatedAt = entity.getUpdatedAt();
     }
 
-    public Product(Product product, Set<Category> categories) {
+    public Product (Product product, Set<Category> categories) {
         this(product);
         this.categories = categories;
     }
 
-
-
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -95,12 +89,6 @@ public class Product {
         this.price = price;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-
-
     public String getImageUrl() {
         return imageUrl;
     }
@@ -109,16 +97,8 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
-
-
-
-    @PreUpdate
-    public void preUpdate() {
-        this.updatedAt = Instant.now();
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
     @PrePersist
@@ -126,7 +106,14 @@ public class Product {
         this.createdAt = Instant.now();
     }
 
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
 
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = Instant.now();
+    }
 
     public Set<Category> getCategories() {
         return categories;
@@ -139,7 +126,7 @@ public class Product {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Product product)) return false;
-        return Objects.deepEquals(id, product.id);
+        return Objects.equals(id, product.id);
     }
 
     @Override
