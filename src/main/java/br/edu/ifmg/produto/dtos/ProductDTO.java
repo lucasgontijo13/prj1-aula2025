@@ -3,6 +3,9 @@
     import br.edu.ifmg.produto.entities.Category;
     import br.edu.ifmg.produto.entities.Product;
     import io.swagger.v3.oas.annotations.media.Schema;
+    import jakarta.validation.constraints.NotEmpty;
+    import jakarta.validation.constraints.Positive;
+    import jakarta.validation.constraints.Size;
     import org.springframework.hateoas.RepresentationModel;
 
     import java.util.HashSet;
@@ -13,14 +16,17 @@
         @Schema(description = "Database generated ID product")
         private Long id;
         @Schema(description = "Product name")
+        @Size(min = 3, max = 255, message = "Deve ter entre 3 e 255 caracteres!")
         private String name;
         @Schema(description = "A detailed description of the product")
         private String description;
         @Schema(description = "Product price")
+        @Positive(message = "O preco deve ter um preco positivo")
         private double price;
         @Schema(description = "Product's image URL")
         private String imageUrl;
         @Schema(description = "Product categories (one or more)")
+        @NotEmpty(message = "Produto deve ter pelo menos uma categoria")
         private Set<CategoryDTO> categories = new HashSet<>();
 
         public ProductDTO() {

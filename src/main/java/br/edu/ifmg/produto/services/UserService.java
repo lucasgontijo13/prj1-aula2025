@@ -101,4 +101,13 @@ public class UserService {
             throw new DatabaseException("Integrity violation");
         }
     }
+
+    @Transactional
+    public UserDTO save(UserInsertDTO dto) {
+        User entity = new User();
+        copyDtoToEntity(dto,entity);
+        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+        User novo = userRepository.save(entity);
+        return new UserDTO(novo);
+    }
 }
