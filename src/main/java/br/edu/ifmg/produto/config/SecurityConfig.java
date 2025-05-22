@@ -11,10 +11,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-@Configuration
-@EnableWebMvc
+//@Configuration
+//@EnableWebMvc
 public class SecurityConfig{
-
+/*
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf(csrf -> csrf.disable())
@@ -34,4 +34,6 @@ public class SecurityConfig{
                 );
         return http.build();
     }
+
+ */
 }
