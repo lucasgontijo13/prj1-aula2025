@@ -8,23 +8,21 @@ import java.util.Objects;
 @Entity
 @Table(name = "tb_role")
 public class Role implements GrantedAuthority {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String authority;
 
     public Role() {
-
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public Role(Long id, String authority) {
         this.id = id;
         this.authority = authority;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public void setId(Long id) {
@@ -43,12 +41,12 @@ public class Role implements GrantedAuthority {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Role role)) return false;
-        return Objects.equals(id, role.id);
+        return Objects.equals(getId(), role.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(getId());
     }
 
     @Override

@@ -1,6 +1,5 @@
 package br.edu.ifmg.produto.dtos;
 
-
 import br.edu.ifmg.produto.entities.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -9,20 +8,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class UserDTO {
-
     private Long id;
-    @NotBlank(message = "Campo obrigatório")
+    @NotBlank(message = "Campo obrigatório!")
     private String firstName;
     private String lastName;
 
-    @Email(message = "Favor informar um e-mail valido")
+    @Email(message = "Favor informar um e-mail válido!")
     private String email;
     private Set<RoleDTO> roles = new HashSet<>();
 
-
-
     public UserDTO() {}
-
 
     public UserDTO(Long id, String firstName, String lastName, String email) {
         this.id = id;
@@ -31,11 +26,11 @@ public class UserDTO {
         this.email = email;
     }
 
-    public UserDTO(User user) {
-        id = user.getId();
-        firstName = user.getFirstName();
-        lastName = user.getLastName();
-        email = user.getEmail();
+    public UserDTO (User user) {
+        this.id = user.getId();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.email = user.getEmail();
 
         user.getRoles().forEach(role -> this.roles.add(new RoleDTO(role)));
     }

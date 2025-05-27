@@ -16,7 +16,6 @@ public class RoleDTO {
     public RoleDTO(Role role) {
         this.id = role.getId();
         this.authority = role.getAuthority();
-
     }
 
     public Long getId() {
@@ -37,7 +36,7 @@ public class RoleDTO {
 
     @Override
     public String toString() {
-        return "RolesDTO{" +
+        return "RoleDTO{" +
                 "id=" + id +
                 ", authority='" + authority + '\'' +
                 '}';

@@ -62,7 +62,6 @@ public class Category {
         return updatedAt;
     }
 
-
     public Set<Product> getProducts() {
         return products;
     }

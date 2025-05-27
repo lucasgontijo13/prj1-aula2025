@@ -44,18 +44,18 @@ public class ResourceExceptionListener {
         return ResponseEntity.status(status).body(error);
     }
 
-    @ExceptionHandler(DatabaseException.class)
-    public ResponseEntity<ValidationError> methodArgumentNotValidException(MethodArgumentNotValidException ex, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY; // Erro 400
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ValidationError> methodArgumentNotValidException (MethodArgumentNotValidException ex, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY; // Erro 422
 
         ValidationError error = new ValidationError();
         error.setStatus(status.value());
         error.setMessage(ex.getMessage());
-        error.setError("Validation Exception");
+        error.setError("Validation exception");
         error.setTimestamp(Instant.now());
         error.setPath(request.getRequestURI());
 
-        for(FieldError f : ex.getBindingResult().getFieldErrors()) {
+        for (FieldError f : ex.getBindingResult().getFieldErrors()) {
             error.addFieldMessage(f.getField(), f.getDefaultMessage());
         }
 
