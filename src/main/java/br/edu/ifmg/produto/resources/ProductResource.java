@@ -1,6 +1,7 @@
 package br.edu.ifmg.produto.resources;
 
 import br.edu.ifmg.produto.dtos.ProductDTO;
+import br.edu.ifmg.produto.dtos.ProductListDTO;
 import br.edu.ifmg.produto.services.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -34,6 +35,24 @@ public class ProductResource {
     )
     public ResponseEntity<Page<ProductDTO>> findAll (Pageable pageable) {
         Page<ProductDTO> products = productService.findAll(pageable);
+        return ResponseEntity.ok().body(products);
+    }
+
+
+    @GetMapping(produces = "application/json")
+    @Operation(
+            description = "Get all products paged",
+            summary = "Get all products paged",
+            responses = {
+                    @ApiResponse(description = "Ok", responseCode = "200"),
+            }
+    )
+    public ResponseEntity<Page<ProductListDTO>> findAllPaged
+            (Pageable pageable,
+             @RequestParam(value="categoryID", defaultValue = "0") String categoryId,
+             @RequestParam(value="name", defaultValue = "") String name)
+    {
+        Page<ProductListDTO> products = productService.findAllPaged(name, categoryId, pageable);
         return ResponseEntity.ok().body(products);
     }
 
