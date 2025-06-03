@@ -39,7 +39,7 @@ public class ProductResource {
     }
 
 
-    @GetMapping(produces = "application/json")
+    @GetMapping(value = "/paged",produces = "application/json")
     @Operation(
             description = "Get all products paged",
             summary = "Get all products paged",
