@@ -29,14 +29,14 @@ public class ProductResourceIT {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private Long existingId;
-    private Long nonExistingId;
-
     @Autowired
     private TokenUtil tokenUtil;
     private String username;
     private String password;
     private String token;
+
+    private Long existingId;
+    private Long nonExistingId;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -70,10 +70,10 @@ public class ProductResourceIT {
 
         ResultActions result = mockMvc.perform(
                 put("/product/{id}", existingId)
-                        .header("Authorization", "Bearer " + token)
-                        .content(json)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + token)
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
         );
 
         result.andExpect(status().isOk());
@@ -89,10 +89,10 @@ public class ProductResourceIT {
 
         ResultActions result = mockMvc.perform(
                 put("/product/{id}", nonExistingId)
-                        .header("Authorization", "Bearer " + token)
-                        .content(json)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + token)
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
         );
 
         result.andExpect(status().isNotFound());
@@ -129,9 +129,9 @@ public class ProductResourceIT {
 
         ResultActions result = mockMvc.perform(
                 delete("/product/{id}", existingId)
-                        .header("Authorization", "Bearer " + token)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
         );
 
         result.andExpect(status().isNoContent());
@@ -144,8 +144,9 @@ public class ProductResourceIT {
 
         ResultActions result = mockMvc.perform(
                 delete("/product/{id}", nonExistingId)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
         );
 
         result.andExpect(status().isNotFound());

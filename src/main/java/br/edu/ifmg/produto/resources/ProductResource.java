@@ -38,8 +38,7 @@ public class ProductResource {
         return ResponseEntity.ok().body(products);
     }
 
-
-    @GetMapping(value = "/paged",produces = "application/json")
+    @GetMapping(value = "/paged", produces = "application/json")
     @Operation(
             description = "Get all products paged",
             summary = "Get all products paged",
@@ -47,11 +46,11 @@ public class ProductResource {
                     @ApiResponse(description = "Ok", responseCode = "200"),
             }
     )
-    public ResponseEntity<Page<ProductListDTO>> findAllPaged
-            (Pageable pageable,
-             @RequestParam(value="categoryID", defaultValue = "0") String categoryId,
-             @RequestParam(value="name", defaultValue = "") String name)
-    {
+    public ResponseEntity<Page<ProductListDTO>> findAllPaged (
+            Pageable pageable,
+            @RequestParam(value = "categoryId", defaultValue = "0") String categoryId,
+            @RequestParam(value = "name", defaultValue = "") String name
+    ) {
         Page<ProductListDTO> products = productService.findAllPaged(name, categoryId, pageable);
         return ResponseEntity.ok().body(products);
     }

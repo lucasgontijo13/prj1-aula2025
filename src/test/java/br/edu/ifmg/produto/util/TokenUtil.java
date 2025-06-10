@@ -15,7 +15,6 @@ import org.springframework.util.MultiValueMap;
 
 @Component
 public class TokenUtil {
-
     @Value("${security.client-id}")
     private String clientId;
 
@@ -23,7 +22,6 @@ public class TokenUtil {
     private String clientSecret;
 
     public String obtainAccessToken(MockMvc mockMvc, String username, String password) throws Exception {
-
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "password");
         params.add("client_id", clientId);

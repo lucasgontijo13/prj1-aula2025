@@ -21,7 +21,6 @@ public class ProductListDTO extends RepresentationModel<ProductListDTO> {
     @Size(min = 3, max = 255, message = "Deve ter entre 3 e 255 caracteres!")
     private String name;
 
-
     @Schema(description = "Product price")
     @Positive(message = "O preço deve ter um preço positivo!")
     private double price;
@@ -29,12 +28,10 @@ public class ProductListDTO extends RepresentationModel<ProductListDTO> {
     @Schema(description = "Product's image URL")
     private String imageUrl;
 
-
-
     public ProductListDTO() {
     }
 
-    public ProductListDTO(Long id, String name, String description, double price, String imageUrl) {
+    public ProductListDTO(Long id, String name, double price, String imageUrl) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -52,10 +49,8 @@ public class ProductListDTO extends RepresentationModel<ProductListDTO> {
         this.id = entity.getId();
         this.name = entity.getName();
         this.price = entity.getPrice();
-        this.imageUrl = entity.getImage_url();
+        this.imageUrl = entity.getImageUrl();
     }
-
-
 
     public Long getId() {
         return id;
@@ -73,8 +68,6 @@ public class ProductListDTO extends RepresentationModel<ProductListDTO> {
         this.name = name;
     }
 
-
-
     public double getPrice() {
         return price;
     }
@@ -90,8 +83,6 @@ public class ProductListDTO extends RepresentationModel<ProductListDTO> {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-
-
 
     @Override
     public boolean equals(Object o) {
