@@ -1,6 +1,7 @@
 package br.edu.ifmg.produto.resources.exceptions;
 
 import br.edu.ifmg.produto.services.exceptions.DatabaseException;
+import br.edu.ifmg.produto.services.exceptions.EmailException;
 import br.edu.ifmg.produto.services.exceptions.ResourceNotFound;
 import jakarta.servlet.http.HttpServletRequest;
 import org.hibernate.dialect.Database;
@@ -61,4 +62,19 @@ public class ResourceExceptionListener {
 
         return ResponseEntity.status(status).body(error);
     }
+
+    @ExceptionHandler(EmailException.class)
+    public ResponseEntity<StandardError> emailException(EmailException ex, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST; // Erro 400
+
+        StandardError error = new StandardError();
+        error.setStatus(status.value());
+        error.setMessage(ex.getMessage());
+        error.setError("Email error");
+        error.setTimestamp(Instant.now());
+        error.setPath(request.getRequestURI());
+
+        return ResponseEntity.status(status).body(error);
+    }
+
 }
