@@ -70,11 +70,10 @@ public class ResourceExceptionListener {
         StandardError error = new StandardError();
         error.setStatus(status.value());
         error.setMessage(ex.getMessage());
-        error.setError("Email error");
+        error.setError("Email error.");
         error.setTimestamp(Instant.now());
         error.setPath(request.getRequestURI());
 
         return ResponseEntity.status(status).body(error);
     }
-
 }

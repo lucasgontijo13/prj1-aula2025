@@ -13,13 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/email")
 public class EmailResource {
-
     @Autowired
     private EmailService emailService;
 
     @PostMapping
-    public ResponseEntity<Void> sendEmail(@Valid @RequestBody EmailDTO dto){
-       emailService.sendEmail(dto);
-       return ResponseEntity.ok().build();
+    public ResponseEntity<Void> sendEmail(@Valid @RequestBody EmailDTO dto) {
+        emailService.sendEmail(dto);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -5,7 +5,7 @@ import br.edu.ifmg.produto.dtos.NewPasswordDTO;
 import br.edu.ifmg.produto.dtos.RequestTokenDTO;
 import br.edu.ifmg.produto.entities.PasswordRecover;
 import br.edu.ifmg.produto.entities.User;
-import br.edu.ifmg.produto.repository.PasswordRecoveryRepository;
+import br.edu.ifmg.produto.repository.PasswordRecoverRepository;
 import br.edu.ifmg.produto.repository.UserRepository;
 import br.edu.ifmg.produto.services.exceptions.ResourceNotFound;
 import jakarta.validation.Valid;
@@ -28,50 +28,51 @@ public class AuthService {
 
     @Autowired
     private UserRepository userRepository;
-    
+
     @Autowired
     private EmailService emailService;
 
     @Autowired
-    private PasswordRecoveryRepository passwordRecoveryRepository;
+    private PasswordRecoverRepository passwordRecoverRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+
     public void createRecoverToken(RequestTokenDTO dto) {
-        //pelo email gera um token
+        // Pelo email, buscar o usuário
         User user = userRepository.findByEmail(dto.getEmail());
-        if(user == null) {
-            throw new ResourceNotFound("Email not found");
+
+        if (user == null) {
+            throw new ResourceNotFound("Email inválido.");
         }
 
-        //Gerar o token
+        // Gerar o token
         String token = UUID.randomUUID().toString();
 
-        //inserir no BD
+        // Inserir no BD
         PasswordRecover passwordRecover = new PasswordRecover();
         passwordRecover.setToken(token);
         passwordRecover.setEmail(user.getEmail());
-        passwordRecover.setExpiration(Instant.now().plusSeconds(tokenMinutes*60L));
+        passwordRecover.setExpiration(Instant.now().plusSeconds(tokenMinutes * 60L));
 
-        passwordRecoveryRepository.save(passwordRecover);
+        passwordRecoverRepository.save(passwordRecover);
 
-        //enviar o email com o token incluido no corpo da msg
-        String body = "Acesse o link para definir uma nova senha(valido por " + tokenMinutes + " minutos)\n\n " + uri+token;
+        // Enviar o email com o token incluído no corpo da mensagem
+        String body = "Acesse o link para definir uma nova senha (válido por " + tokenMinutes + " minutos).\n\n" + uri + token;
+
         emailService.sendEmail(new EmailDTO(user.getEmail(), "Recuperação de senha", body));
-
     }
 
-    public void saveNewPassword(@Valid NewPasswordDTO dto) {
-        List<PasswordRecover> list = passwordRecoveryRepository.searchValidToken(dto.getToken(),Instant.now());
+    public void saveNewPassword(NewPasswordDTO dto) {
+        List<PasswordRecover> list = passwordRecoverRepository.searchValidToken(dto.getToken(), Instant.now());
 
-        if(list.isEmpty()) {
-            throw new ResourceNotFound("Token not found");
+        if (list.isEmpty()) {
+            throw new ResourceNotFound("Token not found.");
         }
 
         User user = userRepository.findByEmail(list.getFirst().getEmail());
         user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
         userRepository.save(user);
-
     }
 }

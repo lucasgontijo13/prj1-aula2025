@@ -1,9 +1,9 @@
 package br.edu.ifmg.produto.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 
 import java.time.Instant;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tb_password_recover")
@@ -12,7 +12,6 @@ public class PasswordRecover {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-
     private String token;
     @Column(nullable = false)
     private String email;
@@ -21,7 +20,8 @@ public class PasswordRecover {
 
     public PasswordRecover() {}
 
-    public PasswordRecover(String token, String email, Instant expiration) {
+    public PasswordRecover(Long id, String token, String email, Instant expiration) {
+        this.id = id;
         this.token = token;
         this.email = email;
         this.expiration = expiration;
@@ -57,6 +57,17 @@ public class PasswordRecover {
 
     public void setExpiration(Instant expiration) {
         this.expiration = expiration;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof PasswordRecover that)) return false;
+        return Objects.equals(getId(), that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId());
     }
 
     @Override

@@ -3,7 +3,6 @@ package br.edu.ifmg.produto.dtos;
 import jakarta.validation.constraints.NotBlank;
 
 public class NewPasswordDTO {
-
     @NotBlank(message = "Campo requerido")
     private String newPassword;
     @NotBlank(message = "Campo requerido")
